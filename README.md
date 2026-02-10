@@ -56,7 +56,7 @@ private:
     int data_; // 3.私有数据成员 xxx_
     std::string fileName_; // std::string
 
-public: // 4. 构造函数 / bigfive 单独放一个public区域
+public: // 4. 构造函数及 Rule of Five 相关特殊成员函数单独放一个 public 区域
 
     StyleRef() { }
     StyleRef(const StyleRef &obj) { /* ... */ }
