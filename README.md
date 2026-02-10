@@ -23,10 +23,10 @@ int main() {
 ## 目录
 
 - 一、`标识符`命名风格
-  - 1.0 [类型名 - 大驼峰]()
-  - 1.1 [对象/数据成员 - 小驼峰]()
-  - 1.2 [函数 - 下划线(snake_case)]()
-  - 1.3 [私有表示 - `_`后缀]()
+  - 1.0 [类型名 - 大驼峰](./README.md#10-类型名---大驼峰)
+  - 1.1 [对象/数据成员 - 小驼峰](./README.md#11-对象数据成员---小驼峰)
+  - 1.2 [函数 - 下划线(snake_case)](./README.md#12-函数---下划线snake_case)
+  - 1.3 [私有表示 - `_`后缀](./README.md#13-私有表示---_后缀)
 - 二、模块化
   - 2.0 [使用`import xxx`替代`#include <xxx>`](./README.md#0使用import-xxx替代include-xxx)
   - 2.1 [模块文件结构](./README.md#1模块文件结构)
@@ -64,15 +64,16 @@ public: // 4. 构造函数 / bigfive 单独放一个public区域
 
 public: // 5.公有函数区域
 
-    // 函数名 下划线分割 / snake_style
-    void load_config_file(std::string fileName /* 7.小驼峰 */) {
+    // 函数名 下划线分割 / snake_case
+    /* 7. fileName 小驼峰 */
+    void load_config_file(std::string fileName) {
         // 成员函数如无特殊要求接口和实现不分离
         parse_(config);
     }
 
 private:
 
-    // 6.公有函数区域, 被私有成员函数以 `_` 结尾
+    // 6.被私有成员函数以 `_` 结尾
     void parse_(std::string config) {
 
     }
@@ -98,12 +99,14 @@ struct StyleRef {
 
 > 一个单词首字母小写, 后续单词首字母大写, 不加下划线
 
-- 例: `fileName, maxRetryCount, configText`
+- 例: `fileName, configText`
 
 ```cpp
 struct StyleRef {
     std::string fileName;
-}; 
+};
+
+StyleRef mcppStyle;
 ```
 
 ### 1.2 函数 - 下划线(snake_case)
