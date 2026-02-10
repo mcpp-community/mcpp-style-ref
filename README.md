@@ -131,7 +131,7 @@ public:
 
 > 在标识符后加上`_`表示是对外部不可访问/私有的数据, 即可以是数据成员也可以是函数
 
-- 例: `fileName_, load_config_file_`
+- 例: `fileName_, parse_`
 
 ```cpp
 class StyleRef {
