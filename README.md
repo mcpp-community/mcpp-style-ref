@@ -46,13 +46,15 @@ int main() {
 > 核心思想通过`标识符`风格设计, 能快速识别 - 类型、函数、数据以及封装性
 
 ```cpp
+import std;
+
 namespace mcpplibs {  // 1.命名空间全小写
 
 class StyleRef { // 2.类型名大驼峰
 
 private:
     int data_; // 3.私有数据成员 xxx_
-    std::string fileName_; // std::
+    std::string fileName_; // std::string
 
 public: // 4. 构造函数 / bigfive 单独放一个public区域
 
