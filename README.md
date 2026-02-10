@@ -116,7 +116,7 @@ StyleRef mcppStyle;
 
 > 全小写(通常), 单词用下划线连接
 
-- 例: `load_config_file, parse_, max_retry_count`
+- 例: `load_config_file(), parse_(), max_retry_count()`
 
 ```cpp
 class StyleRef {
