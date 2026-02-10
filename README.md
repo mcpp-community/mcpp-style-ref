@@ -69,7 +69,7 @@ public: // 5.公有函数区域
     /* 7. fileName 小驼峰 */
     void load_config_file(std::string fileName) {
         // 成员函数如无特殊要求接口和实现不分离
-        parse_(config);
+        parse_(fileName);
     }
 
 private:
