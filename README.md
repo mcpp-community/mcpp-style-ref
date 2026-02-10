@@ -27,6 +27,7 @@ int main() {
   - 1.1 [对象/数据成员 - 小驼峰](./README.md#11-对象数据成员---小驼峰)
   - 1.2 [函数 - 下划线(snake_case)](./README.md#12-函数---下划线snake_case)
   - 1.3 [私有表示 - `_`后缀](./README.md#13-私有表示---_后缀)
+  - 1.4 [其他](./README.md#14-其他)
 - 二、模块化
   - 2.0 [使用`import xxx`替代`#include <xxx>`](./README.md#0使用import-xxx替代include-xxx)
   - 2.1 [模块文件结构](./README.md#1模块文件结构)
@@ -140,6 +141,10 @@ private:
     }
 };
 ```
+
+### 1.4 其他
+
+- 全局数据/成员, 通过前缀`g`表示. 例如: `StyleRef gStyleRef;`
 
 ## 二、模块化
 
