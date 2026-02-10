@@ -22,19 +22,123 @@ int main() {
 
 ## 目录
 
-- 0.[使用`import xxx`替代`#include <xxx>`](./README.md#0使用import-xxx替代include-xxx)
-- 1.[模块文件结构](./README.md#1模块文件结构)
-- 2.[使用模块`.cppm`替代头文件`.h`、`.hpp`](./README.md#2使用模块cppm替代头文件hhpp)
-- 3.[模块实现与接口导出分离](./README.md#3模块实现与接口导出分离)
-- 4.[模块及模块分区命名规范](./README.md#4模块及模块分区命名规范)
-- 5.[多文件模块和目录](./README.md#5多文件模块和目录)
-- 6.[可导出模块分区和内部模块分区](./README.md#6可导出模块分区和内部模块分区)
-- 7.[模块化与向前兼容](./README.md#7模块化与向前兼容)
-- 8.[其他](./README.md#8其他)
-  - 8.1 尽可能的少使用宏
-  - 8.2 导出模板接口时注意全局静态成员
+- 一、`标识符`命名风格
+  - 1.0 [类型名 - 大驼峰]()
+  - 1.1 [对象/数据成员 - 小驼峰]()
+  - 1.2 [函数 - 下划线(snake_case)]()
+  - 1.3 [私有表示 - `_`后缀]()
+- 二、模块化
+  - 2.0 [使用`import xxx`替代`#include <xxx>`](./README.md#0使用import-xxx替代include-xxx)
+  - 2.1 [模块文件结构](./README.md#1模块文件结构)
+  - 2.2 [使用模块`.cppm`替代头文件`.h`、`.hpp`](./README.md#2使用模块cppm替代头文件hhpp)
+  - 2.3 [模块实现与接口导出分离](./README.md#3模块实现与接口导出分离)
+  - 2.4 [模块及模块分区命名规范](./README.md#4模块及模块分区命名规范)
+  - 2.5 [多文件模块和目录](./README.md#5多文件模块和目录)
+  - 2.6 [可导出模块分区和内部模块分区](./README.md#6可导出模块分区和内部模块分区)
+  - 2.7 [模块化与向前兼容](./README.md#7模块化与向前兼容)
+  - 2.8 [其他](./README.md#8其他)
+    - 2.8.1 尽可能的少使用宏
+    - 2.8.2 导出模板接口时注意全局静态成员
 
-## 正文
+## 一、`标识符`命名风格
+
+> 核心思想通过`标识符`风格设计, 能快速识别 - 类型、函数、数据以及封装性
+
+```cpp
+namespace mcpplibs {  // 1.命名空间全小写
+
+class StyleRef { // 2.类型名大驼峰
+
+private:
+    int data_; // 3.私有数据成员 xxx_
+    std::string fileName_; // std::
+
+public: // 4. 构造函数 / bigfive 单独放一个public区域
+
+    StyleRef() { }
+    StyleRef(const StyleRef &obj) { /* ... */ }
+    StyleRef(StyleRef &&) { /* ... */ }
+    StyleRef & operator=(const StyleRef &) { /* ... */ }
+    StyleRef & operator=(StyleRef &&) { /* ... */ }
+    ~StyleRef() { /* ... */ }
+
+public: // 5.公有函数区域
+
+    // 函数名 下划线分割 / snake_style
+    void load_config_file(std::string fileName /* 7.小驼峰 */) {
+        // 成员函数如无特殊要求接口和实现不分离
+        parse_(config);
+    }
+
+private:
+
+    // 6.公有函数区域, 被私有成员函数以 `_` 结尾
+    void parse_(std::string config) {
+
+    }
+
+};
+
+}
+```
+
+### 1.0 类型名 - 大驼峰
+
+> 单词首字母都大写, 单词之间不加下划线. 
+
+- 例: `StyleRef, HttpServer, JsonParser`
+
+```cpp
+struct StyleRef {
+    using FileNameType = std::string;
+}; 
+```
+
+### 1.1 对象/数据成员 - 小驼峰
+
+> 一个单词首字母小写, 后续单词首字母大写, 不加下划线
+
+- 例: `fileName, maxRetryCount, configText`
+
+```cpp
+struct StyleRef {
+    std::string fileName;
+}; 
+```
+
+### 1.2 函数 - 下划线(snake_case)
+
+> 全小写(通常), 单词用下划线连接
+
+- 例: `load_config_file, parse_, max_retry_count`
+
+```cpp
+class StyleRef {
+public:
+    void load_config_file(std::string fileName) {
+
+    }
+};
+```
+
+### 1.3 私有表示 - `_`后缀
+
+> 在标识符后加上`_`表示是对外部不可访问/私有的数据, 即可以是数据成员也可以是函数
+
+- 例: `fileName_, load_config_file_`
+
+```cpp
+class StyleRef {
+private:
+    std::string fileName_;
+
+    void parse_(std::string config) {
+
+    }
+};
+```
+
+## 二、模块化
 
 ### 0.使用`import xxx`替代`#include <xxx>`
 
