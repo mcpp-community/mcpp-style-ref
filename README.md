@@ -29,7 +29,7 @@ int main() {
   - 1.3 [私有表示 - `_`后缀](./README.md#13-私有表示---_后缀)
   - 1.4 [其他](./README.md#14-其他)
 - 二、模块化
-  - 2.0 [使用`import xxx`替代`#include <xxx>`](./README.md#20使用import-xxx替代include-xxx)
+  - 2.0 [使用`import xxx`替代`#include <xxx>`](./README.md#20-使用import-xxx替代include-xxx)
   - 2.1 [模块文件结构](./README.md#21-模块文件结构)
   - 2.2 [使用模块`.cppm`替代头文件`.h`、`.hpp`](./README.md#22-使用模块cppm替代头文件hhpp)
   - 2.3 [模块实现与接口导出分离](./README.md#23-模块实现与接口导出分离)
