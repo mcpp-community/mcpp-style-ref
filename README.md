@@ -76,7 +76,7 @@ public: // 5.公有函数区域
 
 private:
 
-    // 6.被私有成员函数以 `_` 结尾
+    // 6.私有成员函数以 `_` 结尾
     void parse_(std::string config) {
 
     }
