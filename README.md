@@ -45,12 +45,14 @@ int main() {
 
 > 核心思想通过`标识符`风格设计, 能快速识别 - 类型、函数、数据以及封装性
 
+下方示例综合展示各小节要点:
+
 ```cpp
 import std;
 
 namespace mcpplibs {  // 1.命名空间全小写
 
-class StyleRef { // 2.类型名大驼峰
+class StyleRef {     // 2.类型名大驼峰
 
 private:
     int data_; // 3.私有数据成员 xxx_
@@ -58,14 +60,14 @@ private:
 
 public: // 4. 构造函数 / Rule of Five（Big Five）单独放一个 public 区域
 
-    StyleRef() { }
-    StyleRef(const StyleRef &obj) { /* ... */ }
-    StyleRef(StyleRef &&) { /* ... */ }
-    StyleRef & operator=(const StyleRef &) { /* ... */ }
-    StyleRef & operator=(StyleRef &&) { /* ... */ }
-    ~StyleRef() { /* ... */ }
+    StyleRef() = default;
+    StyleRef(const StyleRef&) = default;
+    StyleRef(StyleRef&&) = default;
+    StyleRef& operator=(const StyleRef&) = default;
+    StyleRef& operator=(StyleRef&&) = default;
+    ~StyleRef() = default;
 
-public: // 5.公有函数区域
+public:  // 5.公有函数区域 — 函数名 snake_case, 参数名小驼峰
 
     // 函数名 下划线分割 / snake_case
     /* 7. fileName 小驼峰 */
@@ -121,7 +123,7 @@ StyleRef mcppStyle;
 ```cpp
 class StyleRef {
 public:
-    void load_config_file(std::string fileName) {
+    void load_config_file(const std::string& fileName) {
 
     }
 };
@@ -138,7 +140,7 @@ class StyleRef {
 private:
     std::string fileName_;
 
-    void parse_(std::string config) {
+    void parse_(const std::string& config) {
 
     }
 };
@@ -146,7 +148,9 @@ private:
 
 ### 1.4 其他
 
-- 全局数据/成员, 通过前缀`g`表示. 例如: `StyleRef gStyleRef;`
+- **不可变常量** (替代宏): 全大写 + 下划线, 例: `MAX_SIZE`, `DEFAULT_TIMEOUT`
+- **全局数据/成员**: 前缀 `g`, 例: `StyleRef gStyleRef;`
+- **模版命名**: 可以参考 类和函数 的命名风格
 
 ## 二、模块化
 
@@ -246,7 +250,7 @@ int add(int a, int b) {
 > 模块中的接口, 默认外界是不能使用的.要导出的接口需要在前面加`export`关键字
 
 ```cpp
-// mcpplibs.mcpp
+// mcpplibs.cppm
 
 // 模块导出
 export module mcpplibs;
@@ -263,7 +267,7 @@ int add(int a, int b) {
 或
 
 ```cpp
-// mcpplibs.mcpp
+// mcpplibs.cppm
 
 // 模块导出
 export module mcpplibs;
@@ -276,10 +280,12 @@ export int add(int a, int b) {
 
 ### 2.3 模块实现与接口导出分离
 
+#### 2.3.1 方式一: 命名空间隔离
+
 > 通过命名空间隔离模块实现和接口导出, 可以有选择的控制导出接口
 
 ```cpp
-// mcpplibs.mcpp
+// mcpplibs.cppm
 
 // 模块导出
 export module mcpplibs;
@@ -300,6 +306,32 @@ namespace mcpplibs_impl {
 export namespace mcpplibs {
     using mcpplibs_impl::add;
 };
+```
+
+#### 2.3.2 方式二: 模块单元 + 实现单元 (.cppm + .cpp)
+
+> 将接口放在 `.cppm` 模块单元, 实现放在 `module xxx;` 的实现单元 `.cpp` 中, 实现可在编译期隐藏
+
+**`error.cppm`** — 模块接口
+
+```cpp
+export module error;
+
+export struct Error {
+    void test();
+};
+```
+
+**`error.cpp`** — 模块实现
+
+```cpp
+module error;
+
+import std;
+
+void Error::test() {
+    std::println("Hello");
+}
 ```
 
 ### 2.4 模块及模块分区命名规范
@@ -371,10 +403,12 @@ int main() {
 │   │   └── b2.cppm // a.b:b2;
 │   ├── b.cppm // 模块a.b声明及导出
 │   └── c.cppm // 独立模块a.c的实现 + 声明及导出(都在一个文件)
-├── a.cppm // 模块a声明及导出
+├── a.cppm       // 模块a声明及导出
+├── error.cppm   // 模块 error 接口 (接口与实现分离示例)
+├── error.cpp    // 模块 error 实现
 └── main.cpp
 
-3 directories, 7 files
+3 directories, 9 files
 ```
 
 #### 2.5.2 模块
@@ -500,7 +534,52 @@ export namespace lua {
 
 ### 2.8 其他
 
->...
+#### 2.8.1 尽可能的少使用宏
+
+> 宏在模块化 C++ 中应谨慎使用. 宏定义在预处理阶段展开, 与模块的编译模型不同, 可能带来难以预料的行为. 优先考虑 `constexpr`、`inline`、`concept` 等替代方案.
+
+```cpp
+// 避免: 使用宏定义常量
+#define MAX_SIZE 1024
+
+// 推荐: 使用 constexpr, 命名沿用宏风格全大写+下划线
+export module mylib;
+export constexpr int MAX_SIZE = 1024;
+```
+
+```cpp
+// 避免: 使用宏做条件编译逻辑
+#ifdef DEBUG
+    do_something();
+#endif
+
+// 推荐: 使用 constexpr + if 或模块内实现选择; 全局常量加 g 前缀
+export module mylib;
+constexpr bool g_debug = /* ... */;
+if constexpr (g_debug) {
+    do_something();
+}
+```
+
+#### 2.8.2 导出模板接口时注意全局静态成员
+
+> 导出包含全局静态成员的模板时, 需注意 ODR (One Definition Rule) 及模块链接语义. 模板的全局静态成员在每个翻译单元中可能有独立副本, 若需单例语义, 应使用 `inline` 变量或显式实例化.
+
+```cpp
+export module mylib;
+
+// 注意: 每个 import 该模块的翻译单元可能拥有独立的 instance 副本
+export template<typename T>
+struct Trait {
+    static T instance;  // 若在多个 .cpp 中实例化, 需确保定义唯一
+};
+
+// 推荐: C++17 起使用 inline 确保单一定义
+export template<typename T>
+struct TraitInline {
+    inline static T instance{};
+};
+```
 
 ---
 
@@ -508,3 +587,16 @@ export namespace lua {
 
 - [mcpp社区官网](https://mcpp.d2learn.org)
 - [mcpp开源主页](https://github.com/mcpp-community)
+
+## 参与贡献
+
+发现问题或希望改进文档时, 欢迎通过以下方式反馈:
+
+- [创建 issues](https://github.com/mcpp-community/mcpp-style-ref/issues)
+- [论坛发帖](https://mcpp.d2learn.org/forum)
+- 提交 [Pull Request](https://github.com/mcpp-community/mcpp-style-ref/pulls) 进行修复或补充
+
+## 许可证
+
+- **代码**: [Apache License 2.0](LICENSE-CODE)
+- **文档**: [CC BY-NC-SA 4.0](LICENSE-DOCS)
