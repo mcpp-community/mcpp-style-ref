@@ -6,7 +6,7 @@
 [![Module](https://img.shields.io/badge/module-ok-green.svg)](https://en.cppreference.com/w/cpp/language/modules)
 [![License](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](LICENSE-CODE)
 
-| [示例代码](./src) - [官网](https://mcpp.d2learn.org) - [论坛](https://mcpp.d2learn.org/forum) |
+| [示例代码](./src) - [官网](https://mcpp.d2learn.org) - [论坛](https://mcpp.d2learn.org/forum) - [Agent Skills](.agents/skills/README.md) |
 | --- |
 
 ```cpp
@@ -19,6 +19,26 @@ int main() {
 
 > [!CAUTION]
 > 现代C++编码/项目风格文档, 仅作为模块化C++项目的参考且在不断完善中, 如有问题或想法欢迎[创建 issues](https://github.com/mcpp-community/mcpp-style-ref/issues)或[论坛发帖](https://mcpp.d2learn.org/forum)交流, 参与贡献请先阅读 [参与贡献](#参与贡献)
+
+## 快速开始
+
+### 使用项目的skills
+
+> 一键安装 `mcpp-style-ref` skills到你的项目, 然后使用该skills即可快速配置C++23环境并编写模块的项目
+
+```
+xlings install skills:mcpp-style-ref
+```
+
+注: 获取xlings工具见 -> [xlings - 开源的通用包管理器项目](https://github.com/d2learn/xlings)
+
+### 使用项目的`.clang-format`
+
+> 直接复制[.clang-format](), 或使用xlings进行安装
+
+```
+xlings install mcpp:clang-format
+```
 
 ## 目录
 

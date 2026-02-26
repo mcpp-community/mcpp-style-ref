@@ -1,0 +1,16 @@
+---
+# mcpp-style-ref: 匹配 README 中的格式规范
+# 1.4 空格: 符号两侧留空，如 int n { 42 }
+# 缩进: 4 空格
+Language: Cpp
+Standard: c++23
+
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+# 大括号与声明同行 (class X {, void f() {)
+BreakBeforeBraces: Attach
+
+# 花括号初始化留空: T x { ... }
+SpaceBeforeCpp11BracedList: true
