@@ -18,7 +18,7 @@ int main() {
 ```
 
 > [!CAUTION]
-> 现代C++编码/项目风格文档, 仅作为模块化C++项目的参考且在不断完善中, 如果您有发现任何问题欢迎[创建issues](https://github.com/mcpp-community/mcpp-style-ref/issues)或[论坛发帖](https://mcpp.d2learn.org/forum)进行反馈, 或提交PR进行修复
+> 现代C++编码/项目风格文档, 仅作为模块化C++项目的参考且在不断完善中, 如有问题或想法欢迎[创建 issues](https://github.com/mcpp-community/mcpp-style-ref/issues)或[论坛发帖](https://mcpp.d2learn.org/forum)交流, 参与贡献请先阅读 [参与贡献](#参与贡献)
 
 ## 目录
 
@@ -27,7 +27,8 @@ int main() {
   - 1.1 [对象/数据成员 - 小驼峰](./README.md#11-对象数据成员---小驼峰)
   - 1.2 [函数 - 下划线(snake_case)](./README.md#12-函数---下划线snake_case)
   - 1.3 [私有表示 - `_`后缀](./README.md#13-私有表示---_后缀)
-  - 1.4 [其他](./README.md#14-其他)
+  - 1.4 [空格 - 增强可读性](./README.md#14-空格---增强可读性)
+  - 1.5 [其他](./README.md#15-其他)
 - 二、模块化
   - 2.0 [使用`import xxx`替代`#include <xxx>`](./README.md#20-使用import-xxx替代include-xxx)
   - 2.1 [模块文件结构](./README.md#21-模块文件结构)
@@ -40,6 +41,13 @@ int main() {
   - 2.8 [其他](./README.md#28-其他)
     - 2.8.1 尽可能的少使用宏
     - 2.8.2 导出模板接口时注意全局静态成员
+- 三、实践参考
+  - 3.0 [auto 的使用](./README.md#30-auto-的使用)
+  - 3.1 [统一使用 {} 初始化](./README.md#31-统一使用--初始化)
+  - 3.2 [优先使用智能指针](./README.md#32-优先使用智能指针)
+  - 3.3 [用 std::string_view 替代 char*](./README.md#33-用-stdstring_view-替代-char)
+  - 3.4 [用 optional/expected 替代 int 错误码](./README.md#34-用-optionalexpected-替代-int-错误码)
+  - 3.5 [RAII 资源管理](./README.md#35-raii-资源管理)
 
 ## 一、`标识符`命名风格
 
@@ -148,7 +156,20 @@ private:
 };
 ```
 
-### 1.4 其他
+### 1.4 空格 - 增强可读性
+
+> 在符号两侧使用空格, 提升可读性
+
+- **推荐**: `T x { ... }` 符号两侧留空
+- **例**: `int n { 42 }`, `std::vector<int> v { 1, 2, 3 }`
+
+```cpp
+int n { 42 };
+struct Point { int x, y; };
+Point p { 10, 20 };
+```
+
+### 1.5 其他
 
 - **不可变常量** (替代宏): 全大写 + 下划线, 例: `MAX_SIZE`, `DEFAULT_TIMEOUT`
 - **全局数据/成员**: 前缀 `g`, 例: `StyleRef gStyleRef;`
@@ -579,7 +600,176 @@ struct Trait {
 // 推荐: C++17 起使用 inline 确保单一定义
 export template<typename T>
 struct TraitInline {
-    inline static T instance{};
+    inline static T instance {};
+};
+```
+
+## 三、实践参考
+
+> 现代 C++ 常用编码实践, 提升代码健壮性、可读性与维护性
+
+### 3.0 auto 的使用
+
+> 在类型可推断或冗长时使用 `auto`, 在需要明确表达意图时保留显式类型
+
+- **推荐**: 迭代器、lambda、复杂类型、类型明显可推断时使用 `auto`
+- **避免**: 过度使用导致可读性下降; 需要明确类型表达意图时
+
+类型明显可推
+
+```cpp
+// 具体参考: https://github.com/d2learn/d2x/blob/2a553452033316730e1542d54f54f99bd2b397f1/src/cmdprocessor.cppm#L66
+auto app = cmdline::App("d2x")
+    .version("0.1.3")
+    //...
+```
+
+迭代器、lambda、复杂类型
+
+```cpp
+import std;
+
+void process_items(std::vector<int>& vec) {
+    for (auto& item : vec) {
+        item *= 2;
+    }
+
+    auto result = [](int a, int b) { return a + b; }(1, 2);
+    std::println("{}", result);
+}
+```
+
+### 3.1 统一使用 {} 初始化
+
+> 优先使用花括号 `{}` 进行统一初始化, 可避免窄化转换并支持聚合初始化
+
+- **推荐**: 尽量使用 `T x { ... }` 或 `T x = { ... }`
+- **避免**: 窄化转换; 与 `std::initializer_list` 歧义时需注意
+
+```cpp
+import std;
+
+int main() {
+    int n { 42 };
+    std::vector<int> v { 1, 2, 3 };
+    std::string s { "hello" };
+
+    struct Point { int x, y; };
+    Point p { 10, 20 };
+}
+```
+
+### 3.2 优先使用智能指针
+
+> 使用 `std::unique_ptr`、`std::shared_ptr` 管理动态内存, 避免裸 `new`/`delete`
+
+- **推荐**: 明确所有权语义; 使用 `std::make_unique`、`std::make_shared`
+- **避免**: 裸 `new`/`delete`; 混用智能指针与裸指针
+
+```cpp
+import std;
+
+class Resource { /* ... */ };
+
+void use_resource() {
+    auto p = std::make_unique<Resource> {};
+    // 无需手动 delete
+}
+
+void share_resource() {
+    auto p = std::make_shared<Resource> {};
+    // 引用计数管理生命周期
+}
+```
+
+### 3.3 用 std::string_view 替代 char*
+
+> 对只读字符串参数使用 `std::string_view`, 避免拷贝且可接受多种字符串类型
+
+- **适用**: 函数参数、临时字符串、不拥有内存的只读视图
+- **注意**: `string_view` 不拥有数据, 调用方需保证底层数据有效
+
+```cpp
+import std;
+
+void process(std::string_view input) {
+    for (auto c : input) {
+        // 处理字符, 无需拷贝
+    }
+}
+
+int main() {
+    process("literal");                           // C 字符串
+    process(std::string { "temp" });              // std::string
+    process(std::string { "prefix" }.substr(0, 3)); // string 子串
+}
+```
+
+### 3.4 用 optional/expected 替代 int 错误码
+
+> 使用 `std::optional` 表示"可有可无", 使用 `std::expected` 表示"成功或错误", 替代传统的 int 错误码
+
+- **std::optional** (C++17): 表示可能无值, 如解析失败、查找未命中
+- **std::expected** (C++23): 表示成功返回值或错误信息, 类型安全地表达错误
+
+```cpp
+import std;
+
+// optional: 表示"可能没有结果"
+std::optional<int> parse_int(std::string_view s) {
+    int value {};
+    auto [ptr, ec] = std::from_chars(s.data(), s.data() + s.size(), value);
+    if (ec != std::errc {}) return std::nullopt;
+    return value;
+}
+
+// expected: 表示"成功或错误" (C++23)
+std::expected<int, std::string> try_parse(std::string_view s) {
+    int value {};
+    auto [ptr, ec] = std::from_chars(s.data(), s.data() + s.size(), value);
+    if (ec != std::errc {}) return std::unexpected { "parse failed" };
+    return value;
+}
+
+void example() {
+    if (auto v = parse_int("42")) {
+        std::println("got {}", *v);
+    }
+
+    auto r = try_parse("abc");
+    if (r) std::println("got {}", *r);
+    else std::println("error: {}", r.error());
+}
+```
+
+### 3.5 RAII 资源管理
+
+> 将资源获取与对象生命周期绑定, 构造时获取、析构时释放, 避免泄漏与遗漏
+
+- **适用**: 文件句柄、锁、自定义句柄等 (智能指针见 3.2)
+- **推荐**: 优先使用标准库 RAII 类型, 如 `std::fstream`、`std::lock_guard`
+
+```cpp
+import std;
+
+// 作用域与生命周期: 离开作用域时自动析构
+void read_file(std::string_view path) {
+    std::ifstream f { std::string { path } };  // 析构时自动关闭
+    std::string line;
+    while (std::getline(f, line)) { /* ... */ }
+}
+
+void with_lock() {
+    std::mutex m;
+    std::lock_guard lock { m };  // 析构时自动 unlock
+    // 临界区
+}
+
+// 类的构造与析构: 封装资源
+struct AutoLog {
+    std::string_view name;
+    explicit AutoLog(std::string_view n) : name { n } { std::println("{} 开始", name); }
+    ~AutoLog() { std::println("{} 结束", name); }
 };
 ```
 
@@ -592,11 +782,22 @@ struct TraitInline {
 
 ## 参与贡献
 
-发现问题或希望改进文档时, 欢迎通过以下方式反馈:
+### 反馈与交流
+
+有问题或想法时, 欢迎通过以下方式交流:
 
 - [创建 issues](https://github.com/mcpp-community/mcpp-style-ref/issues)
 - [论坛发帖](https://mcpp.d2learn.org/forum)
-- 提交 [Pull Request](https://github.com/mcpp-community/mcpp-style-ref/pulls) 进行修复或补充
+
+### 提交 PR
+
+参与项目贡献时, 建议先创建 issue 说明:
+
+- 添加/修改参考内容的原因
+- 为何适合加入本规范 (规范宜保持简洁)
+- 示例或对比说明 (可选)
+
+**示例**: 拟新增「RAII 资源管理」条目 → 在 issue 中说明适用场景、与现有「智能指针」的区分、简要示例。讨论后即可提交 [Pull Request](https://github.com/mcpp-community/mcpp-style-ref/pulls) 进行修复或补充。
 
 ## 许可证
 
