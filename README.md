@@ -276,12 +276,14 @@ int add(int a, int b) {
 
 **传统风格2 - `.hpp`**
 
+> 头文件中直接定义函数时需加 `inline`，否则被多个 .cpp 包含时会在链接阶段产生 multiple definition 错误。
+
 ```cpp
 // mcpplibs.hpp
 #ifndef MCPPLIBS_HPP
 #define MCPPLIBS_HPP
 
-int add(int a, int b) {
+inline int add(int a, int b) {
     return a + b;
 }
 
