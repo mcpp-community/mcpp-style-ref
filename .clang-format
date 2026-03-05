@@ -1,19 +1,150 @@
----
-Language: Cpp
-Standard: Latest
+# -----------------------------------------------------------------------------
+# mcpp-community C++ Style Configuration
+#
+# This configuration follows the style specification defined in:
+# https://github.com/mcpp-community/mcpp-style-ref
+#
+# Maintained by: mcpp-community
+# -----------------------------------------------------------------------------
 
-IndentWidth: 4                           # 缩进宽度：4空格
-TabWidth: 4                              # Tab宽度：4空格
-UseTab: Never                            # 不使用Tab，只用空格
-AccessModifierOffset: -4                 # 访问修饰符(public/private)向左缩进4空格
+Language:                        Cpp        # Apply configuration to C++
 
-BreakBeforeBraces: Attach                # 大括号附加在声明同行（如 if (x) {）
 
-PointerAlignment: Left                   # 指针/引用符号紧贴类型（int* p）
+# -----------------------------------------------------------------------------
+# Language Standard
+# -----------------------------------------------------------------------------
+Standard:                        Latest     # Always use the latest supported C++ standard
 
-SpaceBeforeCpp11BracedList: true         # 在 ) 和 { 之间加空格：func( {1, 2} )
-Cpp11BracedListStyle: false              # 保留 {} 内部空格：{ 1, 2, 3 }
 
-AlwaysBreakTemplateDeclarations: Yes     # 模板声明总是换行：template<typename T>\nclass X
+# -----------------------------------------------------------------------------
+# Indentation
+# -----------------------------------------------------------------------------
+IndentWidth:                     4          # Use 4 spaces for indentation
+TabWidth:                        4          # Visual width of tab
+UseTab:                          Never      # Never use tabs
 
-AllowShortFunctionsOnASingleLine: Empty  # 只有空函数可以单行
+
+# -----------------------------------------------------------------------------
+# Line Width
+# -----------------------------------------------------------------------------
+ColumnLimit:                     100        # Maximum line width
+
+
+# -----------------------------------------------------------------------------
+# Spaces
+# -----------------------------------------------------------------------------
+SpaceBeforeParens:               Never      # No space before function call parentheses
+SpacesInContainerLiterals:       true       # Enforce spaces in container literals
+SpaceBeforeAssignmentOperators:  true       # Add space before assignment operators
+SpacesInParentheses:             false      # No extra spaces inside parentheses
+PointerAlignment:                Left       # Pointer/reference attaches to type
+QualifierAlignment:              Left       # Place qualifiers like const to the left
+
+
+# -----------------------------------------------------------------------------
+# Braces
+# -----------------------------------------------------------------------------
+BreakBeforeBraces:               Attach     # Opening brace stays on same line
+AllowShortFunctionsOnASingleLine: Empty     # Allow empty functions like `void f() {}`
+AllowShortIfStatementsOnASingleLine: Never  # Disallow single-line if statements
+AllowShortBlocksOnASingleLine:   Empty      # Allow empty blocks on one line
+AllowShortLoopsOnASingleLine:    false      # Disallow one-line loops
+
+
+# -----------------------------------------------------------------------------
+# Constructor Initializer List
+# -----------------------------------------------------------------------------
+BreakConstructorInitializers:    BeforeColon   # Keep initializer list compact when short
+ConstructorInitializerAllOnOneLineOrOnePerLine: true  # Allow compact initializer lists
+BreakConstructorInitializersBeforeComma: false  # Do not break before commas
+
+
+# -----------------------------------------------------------------------------
+# Access Modifiers
+# -----------------------------------------------------------------------------
+AccessModifierOffset:            -4         # Align access modifiers with class indentation
+EmptyLineBeforeAccessModifier:   Never      # Do not insert empty line before access specifiers
+EmptyLineAfterAccessModifier:    Never      # Do not insert empty line after access specifiers
+
+
+# -----------------------------------------------------------------------------
+# Namespace Formatting
+# -----------------------------------------------------------------------------
+NamespaceIndentation:            None       # Do not indent contents inside namespace
+FixNamespaceComments:            true       # Enforce closing namespace comments
+CompactNamespaces:               true       # Prefer namespace a::b instead of nested namespaces
+
+
+# -----------------------------------------------------------------------------
+# Switch / Case Formatting
+# -----------------------------------------------------------------------------
+IndentCaseLabels:                true       # Indent case/default labels
+IndentCaseBlocks:                true       # Indent statements inside case blocks
+
+
+# -----------------------------------------------------------------------------
+# Includes
+# -----------------------------------------------------------------------------
+SortIncludes:                    true       # Automatically sort includes
+IncludeBlocks:                   Regroup    # Regroup include blocks
+IncludeCategories:
+  - Regex:                       '^<.*>'    # Standard / third-party headers
+    Priority:                    1
+  - Regex:                       '^".*"'    # Project headers
+    Priority:                    2
+
+
+# -----------------------------------------------------------------------------
+# Comment Alignment
+# -----------------------------------------------------------------------------
+AlignTrailingComments:           true       # Align trailing comments
+SpacesBeforeTrailingComments:    2          # Two spaces before trailing comments
+
+
+# -----------------------------------------------------------------------------
+# Parameter Formatting
+# -----------------------------------------------------------------------------
+BinPackParameters:               true       # Allow parameters on same line
+BinPackArguments:                true       # Allow arguments on same line
+
+
+# -----------------------------------------------------------------------------
+# Template Formatting
+# -----------------------------------------------------------------------------
+AlwaysBreakTemplateDeclarations: Yes        # Always place template declarations on their own line
+
+
+# -----------------------------------------------------------------------------
+# Operator Line Breaking
+# -----------------------------------------------------------------------------
+BreakBeforeBinaryOperators:      None       # Break after operators
+
+
+# -----------------------------------------------------------------------------
+# Method Chain Formatting
+# -----------------------------------------------------------------------------
+PenaltyBreakBeforeFirstCallParameter: 10000 # Avoid breaking chained calls unless necessary
+
+
+# -----------------------------------------------------------------------------
+# Lambda Formatting
+# -----------------------------------------------------------------------------
+AllowShortLambdasOnASingleLine:  All        # Allow short lambdas on one line
+
+
+# -----------------------------------------------------------------------------
+# Using Declarations
+# -----------------------------------------------------------------------------
+SortUsingDeclarations:           true       # Automatically sort using declarations
+
+
+# -----------------------------------------------------------------------------
+# Return Type Formatting
+# -----------------------------------------------------------------------------
+AlwaysBreakAfterReturnType:      None       # Break return type only when exceeding ColumnLimit
+
+
+# -----------------------------------------------------------------------------
+# Concepts / Requires
+# -----------------------------------------------------------------------------
+RequiresClausePosition:          OwnLine    # Force requires clause to a new line
