@@ -148,3 +148,4 @@ AlwaysBreakAfterReturnType:      None       # Break return type only when exceed
 # Concepts / Requires
 # -----------------------------------------------------------------------------
 RequiresClausePosition:          OwnLine    # Force requires clause to a new line
+IndentRequiresClause:            false      # Do not indent requires clause
