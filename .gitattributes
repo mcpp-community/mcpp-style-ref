@@ -1,0 +1,65 @@
+# -----------------------------------------------------------------------------
+# mcpp-community Git attributes
+#
+# This configuration is part of the mcpp-community style specification.
+# Repository:
+# https://github.com/mcpp-community/mcpp-style-ref
+#
+# This file ensures consistent line endings and Git behavior across platforms.
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Default text handling
+# -----------------------------------------------------------------------------
+* text=auto eol=lf                 # Normalize text files and enforce LF line endings
+
+# -----------------------------------------------------------------------------
+# Source code
+# -----------------------------------------------------------------------------
+*.c   text                          # C source files
+*.cc  text                          # C++ source files
+*.cpp text                          # C++ source files
+*.cxx text                          # C++ source files
+*.h   text                          # C headers
+*.hpp text                          # C++ headers
+*.hxx text                          # C++ headers
+*.cppm text                         # C++ module interface units
+*.ixx  text                         # C++ module interface units (MSVC style)
+*.mpp  text                         # C++ module interface units
+
+# -----------------------------------------------------------------------------
+# Build system
+# -----------------------------------------------------------------------------
+*.cmake text                        # CMake scripts
+CMakeLists.txt text                 # CMake entry file
+Makefile text                       # Makefile
+
+# -----------------------------------------------------------------------------
+# Documentation
+# -----------------------------------------------------------------------------
+*.md text                           # Markdown files
+*.txt text                          # Plain text documentation
+
+# -----------------------------------------------------------------------------
+# Structured data
+# -----------------------------------------------------------------------------
+*.json text                         # JSON configuration files
+*.yml  text                         # YAML configuration files
+*.yaml text                         # YAML configuration files
+
+# -----------------------------------------------------------------------------
+# Scripts
+# -----------------------------------------------------------------------------
+*.sh text eol=lf                    # Shell scripts must use LF
+
+# -----------------------------------------------------------------------------
+# Binary files
+# -----------------------------------------------------------------------------
+*.png  binary                       # PNG images
+*.jpg  binary                       # JPEG images
+*.jpeg binary                       # JPEG images
+*.gif  binary                       # GIF images
+*.pdf  binary                       # PDF files
+*.zip  binary                       # ZIP archives
+*.tar  binary                       # TAR archives
+*.gz   binary                       # Gzip archives
