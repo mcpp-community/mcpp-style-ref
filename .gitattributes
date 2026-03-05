@@ -11,7 +11,9 @@
 # -----------------------------------------------------------------------------
 # Default text handling
 # -----------------------------------------------------------------------------
-* text=auto eol=lf                 # Normalize text files and enforce LF line endings
+
+# Normalize text files and enforce LF line endings
+* text=auto eol=lf                 
 
 # -----------------------------------------------------------------------------
 # Source code
