@@ -1,0 +1,97 @@
+# -----------------------------------------------------------------------------
+# mcpp-community EditorConfig
+#
+# This configuration is part of the mcpp-community style specification.
+# Repository:
+# https://github.com/mcpp-community/mcpp-style-ref
+#
+# EditorConfig ensures consistent editor behavior across different IDEs.
+# It complements .clang-format, which handles C/C++ code formatting.
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Root
+# -----------------------------------------------------------------------------
+root                           = true     # Treat this directory as the root EditorConfig
+
+# -----------------------------------------------------------------------------
+# Global defaults
+# -----------------------------------------------------------------------------
+[*]
+charset                        = utf-8    # Use UTF-8 encoding for all files
+end_of_line                    = lf       # Use LF line endings
+insert_final_newline           = true     # Ensure files end with a newline
+trim_trailing_whitespace       = true     # Remove trailing whitespace on save
+
+indent_style                   = space    # Use spaces for indentation
+indent_size                    = 4        # Default indentation width
+
+# -----------------------------------------------------------------------------
+# C / C++
+# -----------------------------------------------------------------------------
+[*.{c,cpp,cc,cxx,h,hpp,hxx}]
+indent_style                   = space    # Use spaces for indentation
+indent_size                    = 4        # 4-space indentation for C/C++
+
+# -----------------------------------------------------------------------------
+# CMake
+# -----------------------------------------------------------------------------
+[*.cmake]
+indent_style                   = space    # Use spaces for indentation
+indent_size                    = 4        # Standard indentation for CMake scripts
+
+[CMakeLists.txt]
+indent_style                   = space    # Use spaces for indentation
+indent_size                    = 4        # Standard indentation for CMakeLists
+
+# -----------------------------------------------------------------------------
+# Markdown
+# -----------------------------------------------------------------------------
+[*.md]
+trim_trailing_whitespace       = false    # Preserve trailing spaces (Markdown line break)
+
+# -----------------------------------------------------------------------------
+# JSON / YAML
+# -----------------------------------------------------------------------------
+[*.{json,yml,yaml}]
+indent_style                   = space    # Use spaces for indentation
+indent_size                    = 2        # 2-space indentation for structured data
+
+# -----------------------------------------------------------------------------
+# Python
+# -----------------------------------------------------------------------------
+[*.py]
+indent_style                   = space    # Use spaces for indentation
+indent_size                    = 4        # Python standard indentation
+
+# -----------------------------------------------------------------------------
+# Makefile
+# -----------------------------------------------------------------------------
+[Makefile]
+indent_style                   = tab      # Makefile requires tab indentation
+
+# -----------------------------------------------------------------------------
+# Shell scripts
+# -----------------------------------------------------------------------------
+[*.{sh,bash,zsh}]
+indent_style                   = space    # Use spaces for indentation
+indent_size                    = 4        # Consistent 4-space indentation for shell scripts
+
+# -----------------------------------------------------------------------------
+# Docker
+# -----------------------------------------------------------------------------
+[{Dockerfile,docker-compose.yml}]
+indent_style                   = space    # Use spaces for indentation
+indent_size                    = 4        # Standard 4-space indentation for Docker-related files
+
+[*.dockerfile]
+indent_style                   = space    # Use spaces for indentation
+indent_size                    = 4        # 4-space indentation for files named with .dockerfile extension
+
+# -----------------------------------------------------------------------------
+# Git files
+# -----------------------------------------------------------------------------
+[{.gitattributes,.gitignore,.gitmodules}]
+indent_style                   = unset    # Do not enforce indent style (these files are not code)
+indent_size                    = unset    # Do not enforce indent size
+trim_trailing_whitespace       = unset    # Do not automatically trim trailing whitespace
