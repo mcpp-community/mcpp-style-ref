@@ -16,50 +16,94 @@
 # -----------------------------------------------------------------------------
 # Source code
 # -----------------------------------------------------------------------------
-*.c   text                          # C source files
-*.cc  text                          # C++ source files
-*.cpp text                          # C++ source files
-*.cxx text                          # C++ source files
-*.h   text                          # C headers
-*.hpp text                          # C++ headers
-*.hxx text                          # C++ headers
-*.cppm text                         # C++ module interface units
-*.ixx  text                         # C++ module interface units (MSVC style)
-*.mpp  text                         # C++ module interface units
+
+# C source files
+*.c   text
+
+# C++ source files
+*.cc  text
+*.cpp text
+*.cxx text
+
+# C headers
+*.h   text
+
+# C++ headers                          
+*.hpp text                          
+*.hxx text
+
+# C++ module interface units
+*.cppm text                         
+*.ixx  text                         
+*.mpp  text                         
 
 # -----------------------------------------------------------------------------
 # Build system
 # -----------------------------------------------------------------------------
-*.cmake text                        # CMake scripts
-CMakeLists.txt text                 # CMake entry file
-Makefile text                       # Makefile
+
+# CMake scripts
+*.cmake text
+
+# CMake entry file
+CMakeLists.txt text
+
+# Makefile
+Makefile text                       
 
 # -----------------------------------------------------------------------------
 # Documentation
 # -----------------------------------------------------------------------------
-*.md text                           # Markdown files
-*.txt text                          # Plain text documentation
+
+# Markdown files
+*.md text
+
+# Plain text documentation
+*.txt text                          
 
 # -----------------------------------------------------------------------------
 # Structured data
 # -----------------------------------------------------------------------------
-*.json text                         # JSON configuration files
-*.yml  text                         # YAML configuration files
-*.yaml text                         # YAML configuration files
+
+# JSON configuration files
+*.json text
+
+# YAML configuration files
+*.yml  text
+
+# YAML configuration files
+*.yaml text                         
 
 # -----------------------------------------------------------------------------
 # Scripts
 # -----------------------------------------------------------------------------
-*.sh text eol=lf                    # Shell scripts must use LF
+
+# Shell scripts must use LF
+*.sh text eol=lf                    
 
 # -----------------------------------------------------------------------------
 # Binary files
 # -----------------------------------------------------------------------------
-*.png  binary                       # PNG images
-*.jpg  binary                       # JPEG images
-*.jpeg binary                       # JPEG images
-*.gif  binary                       # GIF images
-*.pdf  binary                       # PDF files
-*.zip  binary                       # ZIP archives
-*.tar  binary                       # TAR archives
-*.gz   binary                       # Gzip archives
+
+# PNG images
+*.png  binary                       
+
+# JPEG images
+*.jpg  binary                       
+
+# JPEG images
+*.jpeg binary                       
+
+# GIF images
+*.gif  binary                       
+
+# PDF files
+*.pdf  binary                       
+
+# ZIP archives
+*.zip  binary                       
+
+# TAR archives
+*.tar  binary                       
+
+# Gzip archives
+*.gz   binary                       
