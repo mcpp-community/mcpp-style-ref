@@ -1,0 +1,195 @@
+# ============================================================
+# mcpp-community clang-tidy configuration
+#
+# Defines the static analysis rules used by mcpp-community
+# projects to enforce correctness, performance, and portability.
+#
+# Repository:
+# https://github.com/mcpp-community/mcpp-style-ref
+#
+# Strategy:
+#   - Whitelist-based rule selection
+#   - Enable high-value static analysis checks
+#   - Avoid overly opinionated style rules
+#
+# Target:
+#   Modern C++ projects (C++23 and above)
+#   Generic libraries (STL-like containers, algorithms, utilities)
+# ============================================================
+
+
+Checks:
+
+  # ------------------------------------------------------------
+  # Disable all checks (whitelist mode)
+  # ------------------------------------------------------------
+  -*
+
+
+  # ------------------------------------------------------------
+  # Compiler diagnostics
+  # Forward compiler warnings into clang-tidy
+  # ------------------------------------------------------------
+  clang-diagnostic-*
+
+
+  # ------------------------------------------------------------
+  # Clang static analyzer
+  # Advanced static analysis (memory, null, logic)
+  # ------------------------------------------------------------
+  clang-analyzer-*
+
+
+  # ------------------------------------------------------------
+  # Bug-prone patterns
+  # Detect common programming mistakes
+  # ------------------------------------------------------------
+  bugprone-*
+
+
+  # ------------------------------------------------------------
+  # Performance improvements
+  # Detect inefficient code patterns
+  # ------------------------------------------------------------
+  performance-*
+
+
+  # ------------------------------------------------------------
+  # Modern C++ improvements
+  # Suggest modern C++ constructs
+  # ------------------------------------------------------------
+  modernize-*
+
+
+  # ------------------------------------------------------------
+  # Miscellaneous useful checks
+  # Various useful static checks
+  # ------------------------------------------------------------
+  misc-*
+
+
+  # ------------------------------------------------------------
+  # Portability checks
+  # Detect cross-platform issues
+  # ------------------------------------------------------------
+  portability-*
+
+
+  # ------------------------------------------------------------
+  # Selected readability checks
+  # ------------------------------------------------------------
+
+  # Require braces for control statements
+  readability-braces-around-statements
+
+  # Avoid implicit bool conversions
+  readability-implicit-bool-conversion
+
+  # Simplify boolean expressions
+  readability-simplify-boolean-expr
+
+  # Encourage qualified auto usage
+  readability-qualified-auto
+
+
+  # ------------------------------------------------------------
+  # Disabled modernize checks
+  # ------------------------------------------------------------
+
+  # Do not force auto usage
+  -modernize-use-auto
+
+  # Allow C-style arrays where appropriate
+  -modernize-avoid-c-arrays
+
+
+  # ------------------------------------------------------------
+  # Disabled readability checks
+  # ------------------------------------------------------------
+
+  # Naming handled by project conventions
+  -readability-identifier-naming
+
+  # Algorithms frequently use literal constants
+  -readability-magic-numbers
+
+  # Not suitable for template-heavy code
+  -readability-function-size
+
+
+  # ------------------------------------------------------------
+  # Disabled ecosystem-specific checks
+  # ------------------------------------------------------------
+
+  # Fuchsia project specific
+  -fuchsia-*
+
+  # Zircon kernel specific
+  -zircon-*
+
+  # Abseil library specific
+  -abseil-*
+
+  # Android codebase specific
+  -android-*
+
+  # LLVM coding style specific
+  -llvm-*
+
+
+
+# ------------------------------------------------------------
+# General configuration
+# ------------------------------------------------------------
+
+WarningsAsErrors: ''
+
+HeaderFilterRegex: '.*'
+
+AnalyzeTemporaryDtors: false
+
+FormatStyle: none
+
+
+
+# ------------------------------------------------------------
+# Check options
+# ------------------------------------------------------------
+
+CheckOptions:
+
+
+  # ------------------------------------------------------------
+  # readability configuration
+  # ------------------------------------------------------------
+
+  # Always require braces
+  - key: readability-braces-around-statements.ShortStatementLines
+    value: '0'
+
+
+  # ------------------------------------------------------------
+  # modernize configuration
+  # ------------------------------------------------------------
+
+  # Avoid aggressive loop rewriting
+  - key: modernize-loop-convert.MinConfidence
+    value: reasonable
+
+
+  # ------------------------------------------------------------
+  # performance configuration
+  # ------------------------------------------------------------
+
+  # No additional allowed types
+  - key: performance-unnecessary-value-param.AllowedTypes
+    value: ''
+
+
+  # ------------------------------------------------------------
+  # misc configuration
+  # ------------------------------------------------------------
+
+  # Ignore unused parameters in virtual overrides
+  - key: misc-unused-parameters.IgnoreVirtual
+    value: 'true'
