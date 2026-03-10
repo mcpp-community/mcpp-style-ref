@@ -442,8 +442,8 @@ foo();
 对应配置：
 
 ```yaml
-RequiresClausePosition:  OwnLine 
-IndentRequiresClause: false 
+RequiresClausePosition: OwnLine
+IndentRequiresClause: false
 ```
 
 ## 格式化前
