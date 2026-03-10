@@ -71,10 +71,11 @@ auto result = some_object.with_a_very_long_name()
 
 # 3. 空格规则（Spaces）
 
+
 对应配置：
 
 ```yaml
-SpaceBeforeParens: Never
+SpaceBeforeParens: ControlStatements
 SpacesInContainerLiterals: true
 SpaceBeforeAssignmentOperators: true
 PointerAlignment: Left
@@ -83,7 +84,7 @@ QualifierAlignment: Left
 
 规则说明：
 
-- 函数名与括号之间 **不允许空格**
+- 函数调用与括号贴紧（`foo(1)`）；控制语句（`if/for/while`）与括号之间保留空格（`if (cond)`）。
 - 容器字面量 **强制空格**
 - 赋值运算符两侧必须有空格
 - 指针/引用贴近类型
