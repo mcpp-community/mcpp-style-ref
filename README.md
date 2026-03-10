@@ -68,6 +68,9 @@ xlings install mcpp:clang-format
   - 3.3 [用 std::string_view 替代 char*](./README.md#33-用-stdstring_view-替代-char)
   - 3.4 [用 optional/expected 替代 int 错误码](./README.md#34-用-optionalexpected-替代-int-错误码)
   - 3.5 [RAII 资源管理](./README.md#35-raii-资源管理)
+- 四、配置文件
+  - 4.0 [Clang-Format 配置](./clang-format.md)
+  - 4.1 [Clang-Tidy 配置](./clang-tidy.md)
 
 ## 一、`标识符`命名风格
 
@@ -793,6 +796,13 @@ struct AutoLog {
     explicit AutoLog(std::string_view n) : name { n } { std::println("{} 开始", name); }
     ~AutoLog() { std::println("{} 结束", name); }
 };
+
+## 四、配置文件
+
+本章包含两个常用工具的配置说明：`clang-format`（代码格式化）和 `clang-tidy`（静态检查）。详细文档见：
+
+- [Clang-Format 配置](./clang-format.md) — 代码格式化规则与示例。
+- [Clang-Tidy 配置](./clang-tidy.md) — 静态检查规则集合与示例。
 ```
 
 ---
