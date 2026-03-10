@@ -42,7 +42,7 @@ xlings install mcpp:clang-format
 
 ## 目录
 
-- 一、`标识符`命名风格
+- 一、标识符命名风格
   - 1.0 [类型名 - 大驼峰](./README.md#10-类型名---大驼峰)
   - 1.1 [对象/数据成员 - 小驼峰](./README.md#11-对象数据成员---小驼峰)
   - 1.2 [函数 - 下划线(snake_case)](./README.md#12-函数---下划线snake_case)
@@ -68,10 +68,13 @@ xlings install mcpp:clang-format
   - 3.3 [用 std::string_view 替代 char*](./README.md#33-用-stdstring_view-替代-char)
   - 3.4 [用 optional/expected 替代 int 错误码](./README.md#34-用-optionalexpected-替代-int-错误码)
   - 3.5 [RAII 资源管理](./README.md#35-raii-资源管理)
+- 四、配置文件
+  - 4.0 [Clang-Format 配置](./clang-format.md)
+  - 4.1 [Clang-Tidy 配置](./clang-tidy.md)
 
-## 一、`标识符`命名风格
+## 一、标识符命名风格
 
-> 核心思想通过`标识符`风格设计, 能快速识别 - 类型、函数、数据以及封装性
+> 核心思想通过**标识符**风格设计, 能快速识别 - 类型、函数、数据以及封装性
 
 下方示例综合展示各小节要点:
 
@@ -794,6 +797,13 @@ struct AutoLog {
     ~AutoLog() { std::println("{} 结束", name); }
 };
 ```
+
+## 四、配置文件
+
+本章包含两个常用工具的配置说明：`clang-format`（代码格式化）和 `clang-tidy`（静态检查）。详细文档见：
+
+- [Clang-Format 配置](./clang-format.md) — 代码格式化规则与示例。
+- [Clang-Tidy 配置](./clang-tidy.md) — 静态检查规则集合与示例。
 
 ---
 

@@ -33,7 +33,7 @@ ColumnLimit:                     100        # Maximum line width
 # -----------------------------------------------------------------------------
 # Spaces
 # -----------------------------------------------------------------------------
-SpaceBeforeParens:               Never      # No space before function call parentheses
+SpaceBeforeParens:               ControlStatements      # Space before parentheses for control statements (if/for/while); function calls remain tight
 SpacesInContainerLiterals:       true       # Enforce spaces in container literals
 SpaceBeforeAssignmentOperators:  true       # Add space before assignment operators
 SpacesInParentheses:             false      # No extra spaces inside parentheses
