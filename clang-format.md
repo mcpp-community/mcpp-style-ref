@@ -465,7 +465,7 @@ void bar();
 
 ## 其他配置
 
-下面列出一些常见的 `clang-format` 配置项以供参考（这些项也出现在仓库的 `.clang-format` 中）：
+下面列出一些常见的 `clang-format` 配置项以供参考（这些项也出现在仓库的 `./config/.clang-format` 中）：
 
 - `SpacesInParentheses: false` — 括号内不额外加空格。
 - `AllowShortLoopsOnASingleLine: false` — 禁止单行循环。
