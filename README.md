@@ -69,8 +69,8 @@ xlings install mcpp:clang-format
   - 3.4 [用 optional/expected 替代 int 错误码](./README.md#34-用-optionalexpected-替代-int-错误码)
   - 3.5 [RAII 资源管理](./README.md#35-raii-资源管理)
 - 四、配置文件
-  - 4.0 [Clang-Format 配置](./README.md#40-Clang-Format-配置)
-  - 4.1 [Clang-Tidy 配置](./README.md#41-Clang-Tidy-配置)
+  - 4.0 [Clang-Format 配置](./README.md#40-clang-format-配置)
+  - 4.1 [Clang-Tidy 配置](./README.md#41-clang-tidy-配置)
   - 4.2 [CI/CD 工作流配置](./README.md#42-cicd-工作流配置)
 
 ## 一、标识符命名风格
