@@ -1,0 +1,114 @@
+name: Code Format
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Work mode: check only checks, fix automatically repairs and submits"
+        required: true
+        default: check
+        type: choice
+        options:
+          - check
+          - fix
+
+permissions:
+  contents: read
+
+jobs:
+  format-check:
+    name: Clang-Format Check
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.mode == 'check' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup LLVM (clang-format)
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: "18"
+
+      - name: Collect C/C++ source files
+        id: collect
+        shell: bash
+        run: |
+          set -euo pipefail
+          files=$(git ls-files '*.c' '*.cc' '*.cpp' '*.cxx' '*.h' '*.hpp' '*.hh' '*.hxx' '*.cppm' '*.ixx')
+          if [ -z "$files" ]; then
+            echo "has_files=false" >> "$GITHUB_OUTPUT"
+            echo "No C/C++ files found to check, skipping."
+            exit 0
+          fi
+          echo "has_files=true" >> "$GITHUB_OUTPUT"
+          {
+            echo "files<<EOF"
+            echo "$files"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Run clang-format dry-run check
+        if: ${{ steps.collect.outputs.has_files == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(printf '%s\n' "${{ steps.collect.outputs.files }}")
+          clang-format --version
+          if ! clang-format --dry-run --Werror "${files[@]}"; then
+            echo "::error::Format check failed. Please run clang-format -i locally and commit the changes, or manually trigger workflow_dispatch and select fix."
+            exit 1
+          fi
+          echo "Format check passed."
+
+  format-fix:
+    name: Clang-Format Auto Fix
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.mode == 'fix' }}
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup LLVM (clang-format)
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: "18"
+
+      - name: Apply clang-format
+        shell: bash
+        run: |
+          set -euo pipefail
+          files=$(git ls-files '*.c' '*.cc' '*.cpp' '*.cxx' '*.h' '*.hpp' '*.hh' '*.hxx' '*.cppm' '*.ixx')
+          if [ -z "$files" ]; then
+            echo "No C/C++ files found to format."
+            exit 0
+          fi
+          echo "$files" | xargs clang-format -i
+
+      - name: Commit formatting changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: auto-format source files by clang-format"
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          file_pattern: |
+            **/*.c
+            **/*.cc
+            **/*.cpp
+            **/*.cxx
+            **/*.h
+            **/*.hpp
+            **/*.hh
+            **/*.hxx
+            **/*.cppm
+            **/*.ixx
