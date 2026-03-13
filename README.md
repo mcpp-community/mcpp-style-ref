@@ -817,7 +817,7 @@ struct AutoLog {
 
 ### 4.2 CI/CD 工作流配置
 
-项目提供了 GitHub Actions 工作流模板： [`config/workflows/code-format.yml`](./config/workflows/code-format.yml)
+项目提供了 GitHub Actions 工作流模板： [`config/.github/workflows/code-format.yml`](./config/.github/workflows/code-format.yml)
 
 - `pull_request` / `push` 到 `main` 时自动执行 `clang-format --dry-run --Werror`，用于格式一致性检测。
 - 若检查失败，CI 会直接报错并给出提示，提醒开发者在本地执行 `clang-format -i`。
