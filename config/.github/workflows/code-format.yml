@@ -87,12 +87,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          files=$(git ls-files '*.c' '*.cc' '*.cpp' '*.cxx' '*.h' '*.hpp' '*.hh' '*.hxx' '*.cppm' '*.ixx')
-          if [ -z "$files" ]; then
+          mapfile -t files < <(git ls-files '*.c' '*.cc' '*.cpp' '*.cxx' '*.h' '*.hpp' '*.hh' '*.hxx' '*.cppm' '*.ixx')
+          if [ "${#files[@]}" -eq 0 ]; then
             echo "No C/C++ files found to format."
             exit 0
           fi
-          echo "$files" | xargs clang-format -i
+          clang-format -i "${files[@]}"
 
       - name: Commit formatting changes
         uses: stefanzweifel/git-auto-commit-action@v5
