@@ -34,7 +34,7 @@ xlings install skills:mcpp-style-ref
 
 ### 使用项目的`.clang-format`
 
-> 直接复制[.clang-format](), 或使用xlings进行安装
+> 直接复制[.clang-format](./config/.clang-format), 或使用xlings进行安装
 
 ```
 xlings install mcpp:clang-format
@@ -69,8 +69,9 @@ xlings install mcpp:clang-format
   - 3.4 [用 optional/expected 替代 int 错误码](./README.md#34-用-optionalexpected-替代-int-错误码)
   - 3.5 [RAII 资源管理](./README.md#35-raii-资源管理)
 - 四、配置文件
-  - 4.0 [Clang-Format 配置](./clang-format.md)
-  - 4.1 [Clang-Tidy 配置](./clang-tidy.md)
+  - 4.0 [Clang-Format 配置](./README.md#40-clang-format-配置)
+  - 4.1 [Clang-Tidy 配置](./README.md#41-clang-tidy-配置)
+  - 4.2 [CI/CD 工作流配置](./README.md#42-cicd-工作流配置)
 
 ## 一、标识符命名风格
 
@@ -800,10 +801,27 @@ struct AutoLog {
 
 ## 四、配置文件
 
-本章包含两个常用工具的配置说明：`clang-format`（代码格式化）和 `clang-tidy`（静态检查）。详细文档见：
+本章包含社区项目模板中一些常用工具的配置说明：
 
-- [Clang-Format 配置](./clang-format.md) — 代码格式化规则与示例。
-- [Clang-Tidy 配置](./clang-tidy.md) — 静态检查规则集合与示例。
+### 4.0 Clang-Format 配置
+
+代码格式化规则与示例。
+
+- [转到配置文档](./clang-format.md)
+
+### 4.1 Clang-Tidy 配置
+
+静态检查规则集合与示例。
+
+- [转到配置文档](./clang-tidy.md)
+
+### 4.2 CI/CD 工作流配置
+
+项目提供了 GitHub Actions 工作流模板： [`config/.github/workflows/code-format.yml`](./config/.github/workflows/code-format.yml)
+
+- `pull_request` / `push` 到 `main` 时自动执行 `clang-format --dry-run --Werror`，用于格式一致性检测。
+- 若检查失败，CI 会直接报错并给出提示，提醒开发者在本地执行 `clang-format -i`。
+- 可手动触发 `workflow_dispatch`，并选择 `mode=fix`，自动格式化并回推提交（可选择式自动修复）。
 
 ---
 

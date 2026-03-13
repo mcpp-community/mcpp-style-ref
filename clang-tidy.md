@@ -273,4 +273,4 @@ int* p = nullptr;
     - `performance-unnecessary-value-param.AllowedTypes: ''`（不额外放行类型作为按值参数）
     - `misc-unused-parameters.IgnoreVirtual: true`（忽略虚函数重载中的未使用参数警告）
 
-如需在项目中使用这些设置，可参考仓库根目录的 `.clang-tidy` 文件并按需调整以纳入 CI。
+如需在项目中使用这些设置，可参考仓库的 `./config/.clang-tidy` 文件并按需调整以纳入 CI。
